@@ -693,8 +693,15 @@ body.dark .data-table tbody tr:hover {
       <p class="suggestion">help me create a business</p>
       <p class="suggestion">what does a CEO do</p>
       <p class="suggestion">give me personalized advice</p>
+      <p class="suggestion">what is a bank</p>
+      <p class="suggestion">types of companies</p>
+      <p class="suggestion">how do banks make money</p>
       <p class="suggestion">what is business</p>
       <p class="suggestion">how to start a business</p>
+      <p class="suggestion">banking services</p>
+      <p class="suggestion">company valuation</p>
+      <p class="suggestion">investment banking</p>
+      <p class="suggestion">corporate structure</p>
     </div>
 
   </div>
@@ -2295,8 +2302,8 @@ const intents = [
 {tag:"business_comparison",patterns:["compare businesses","compare companies","compare two companies","which company is better","business comparison","compare business performance"],responses:["Let me show you a detailed comparison of these businesses with real data and analysis..."]},
 
 // BANKS AND BANKING
-{tag:"what_is_bank",patterns:["what is a bank","what are banks","bank definition","explain banks"],responses:["A bank is a financial institution that accepts deposits, provides loans, and offers various financial services. Banks act as intermediaries between savers and borrowers, facilitating economic activity."]},
-{tag:"types_of_banks",patterns:["types of banks","different banks","kinds of banks","bank types"],responses:["Main types of banks: 1️⃣ Commercial banks (retail banking) 2️⃣ Investment banks (corporate finance) 3️⃣ Central banks (monetary policy) 4️⃣ Credit unions (member-owned) 5️⃣ Online banks (digital-only)."]},
+{tag:"what_is_bank",patterns:["what is a bank","what are banks","bank definition","explain banks","what is bank","banks","bank"],responses:["A bank is a financial institution that accepts deposits, provides loans, and offers various financial services. Banks act as intermediaries between savers and borrowers, facilitating economic activity."]},
+{tag:"types_of_banks",patterns:["types of banks","different banks","kinds of banks","bank types","types of bank","what types of banks"],responses:["Main types of banks: 1️⃣ Commercial banks (retail banking) 2️⃣ Investment banks (corporate finance) 3️⃣ Central banks (monetary policy) 4️⃣ Credit unions (member-owned) 5️⃣ Online banks (digital-only)."]},
 {tag:"commercial_bank",patterns:["what is commercial bank","commercial banking","retail bank"],responses:["Commercial banks provide services to individuals and businesses: checking/savings accounts, loans, mortgages, credit cards, and business banking services. They earn from interest spreads and fees."]},
 {tag:"investment_bank",patterns:["what is investment bank","investment banking","IB"],responses:["Investment banks help companies raise capital through IPOs, bonds, and stocks. They provide M&A advisory, trading, and research. They serve corporations and institutional investors."]},
 {tag:"central_bank",patterns:["what is central bank","central banking","federal reserve"],responses:["Central banks (like the Federal Reserve) control monetary policy, regulate banks, manage currency, and maintain financial stability. They set interest rates and influence economic growth."]},
@@ -2319,8 +2326,8 @@ const intents = [
 {tag:"bank_statement",patterns:["bank statement","account statement","monthly statement"],responses:["Bank statement shows all account activity for a period. Includes deposits, withdrawals, fees, and interest. Review monthly to catch errors and track spending."]},
 
 // COMPANIES AND CORPORATIONS
-{tag:"what_is_company",patterns:["what is a company","company definition","explain company"],responses:["A company is a legal entity formed by individuals to conduct business. It can own assets, incur debts, and enter contracts. Companies provide limited liability protection to owners."]},
-{tag:"types_of_companies",patterns:["types of companies","company structures","business structures"],responses:["Company types: 🏢 Corporation (C-Corp/S-Corp) 🤝 Partnership (General/Limited) 🏠 LLC (Limited Liability Company) 👤 Sole Proprietorship 🏛️ Nonprofit. Each has different tax, liability, and management implications."]},
+{tag:"what_is_company",patterns:["what is a company","company definition","explain company","what is company","companies","company"],responses:["A company is a legal entity formed by individuals to conduct business. It can own assets, incur debts, and enter contracts. Companies provide limited liability protection to owners."]},
+{tag:"types_of_companies",patterns:["types of companies","different companies","kinds of companies","company types","types of company","what types of companies","company structures","business structures"],responses:["Company types: 🏢 Corporation (C-Corp/S-Corp) 🤝 Partnership (General/Limited) 🏠 LLC (Limited Liability Company) 👤 Sole Proprietorship 🏛️ Nonprofit. Each has different tax, liability, and management implications."]},
 {tag:"corporation",patterns:["what is corporation","corporate structure","C corporation"],responses:["A corporation is a legal entity separate from its owners. Shareholders own stock, board of directors governs, officers manage operations. Offers strong liability protection but complex regulations."]},
 {tag:"LLC",patterns:["what is LLC","limited liability company","LLC meaning"],responses:["LLC combines corporation liability protection with partnership tax flexibility. Owners (members) have limited personal liability. Popular for small businesses and professional services."]},
 {tag:"partnership",patterns:["what is partnership","business partnership","partnership types"],responses:["Partnership is business owned by 2+ people sharing profits/losses. General partnerships have unlimited liability; limited partnerships protect some partners. Simple but risky structure."]},
@@ -4328,7 +4335,7 @@ bestIntent = intent;
 }
 }
 
-if (bestScore > 0.55 && bestIntent) {
+if (bestScore > 0.4 && bestIntent) {
   if (bestIntent.tag === 'idea_generator') {
     return generateIdeaReply();
   }
@@ -4415,16 +4422,21 @@ async function sendMessage() {
   addMessage(reply, 'bot');
 }
 
-$("#user-input").on('keypress', function(e) {
-  if (e.key === 'Enter') sendMessage();
-});
+$(document).ready(function() {
+  $("#user-input").on('keypress', function(e) {
+    if (e.key === 'Enter') sendMessage();
+  });
 
-$("#suggestBtn").click(() => $("#suggestBox").toggle());
-$("#closeBtn").click(() => $("#suggestBox").hide());
-$(".suggestion").click(function() {
-$("#user-input").val($(this).text());
-sendMessage();
-$("#suggestBox").hide();
+  $("#suggestBtn").click(() => $("#suggestBox").toggle());
+  $("#closeBtn").click(() => $("#suggestBox").hide());
+  $(".suggestion").click(function() {
+    $("#user-input").val($(this).text());
+    sendMessage();
+    $("#suggestBox").hide();
+  });
+
+  // Initialize with welcome message
+  addMessage("Hello! 👋 Ask me anything about business.", 'bot');
 });
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -4469,10 +4481,6 @@ if (e.target === document.getElementById("reportsModal")) {
 closeReportsModal();
 }
 });
-
-window.onload = () => {
-addMessage("Hello! 👋 Ask me anything about business.", 'bot');
-};
 </script>
 
 </body>
